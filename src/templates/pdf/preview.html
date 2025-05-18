@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Visualização de Atividades para {{ aluno.nome }}</h2>
+
+    <!-- Informações do Aluno -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h3>Informações do Aluno</h3>
+        </div>
+        <div class="card-body">
+            <p><strong>Nome:</strong> {{ aluno.nome }}</p>
+            <p><strong>Idade:</strong> {{ aluno.idade }}</p>
+            <p><strong>Turma:</strong> {{ aluno.turma }}</p>
+            <p><strong>Nível:</strong> {{ aluno.nivel.nome }}</p>
+            <p><strong>Data de Geração:</strong> {{ data_geracao }}</p>
+        </div>
+    </div>
+
+    <!-- Botões de ação -->
+    <div class="mb-3 text-center">
+        <a href="{{ url_for('pdf.gerar', aluno_id=aluno.id) }}" class="btn btn-success">📄 Baixar PDF</a>
+        <a href="{{ url_for('pdf.editar', aluno_id=aluno.id) }}" class="btn btn-warning">✏️ Editar PDF</a> <!-- Novo botão de edição -->
+        <a href="{{ url_for('alunos.listar') }}" class="btn btn-secondary">🔙 Voltar</a>
+    </div>
+
+    <!-- Lista de Atividades -->
+    <h3 class="mt-4">Atividades</h3>
+    {% for atividade in atividades %}
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+            <h4>{{ atividade.titulo }}</h4>
+        </div>
+        <div class="card-body">
+            <p><strong>Tipo:</strong> {{ atividade.tipo }}</p>
+            <p><strong>Descrição:</strong> {{ atividade.descricao }}</p>
+            <div class="border p-3 bg-light">
+                <h5>Conteúdo:</h5>
+                <p>{{ atividade.conteudo|replace('\n', '<br>')|safe }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+

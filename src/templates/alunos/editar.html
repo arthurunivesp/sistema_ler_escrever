@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Editar Aluno</h2>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('alunos.editar', id=aluno.id) }}">
+                        <div class="mb-3">
+                            <label for="nome" class="form-label">Nome</label>
+                            <input type="text" class="form-control" id="nome" name="nome" value="{{ aluno.nome }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="idade" class="form-label">Idade</label>
+                            <input type="number" class="form-control" id="idade" name="idade" value="{{ aluno.idade }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="turma" class="form-label">Turma</label>
+                            <input type="text" class="form-control" id="turma" name="turma" value="{{ aluno.turma }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="nivel_id" class="form-label">Nível</label>
+                            <select class="form-select" id="nivel_id" name="nivel_id">
+                                <option value="">Selecione um nível</option>
+                                {% for nivel in niveis %}
+                                <option value="{{ nivel.id }}" {% if aluno.nivel_id == nivel.id %}selected{% endif %}>{{ nivel.nome }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="observacoes" class="form-label">Observações</label>
+                            <textarea class="form-control" id="observacoes" name="observacoes" rows="3">{{ aluno.observacoes }}</textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                        <a href="{{ url_for('alunos.listar') }}" class="btn btn-secondary">Cancelar</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

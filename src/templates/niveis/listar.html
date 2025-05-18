@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Lista de Níveis</h2>
+    <div class="mb-3">
+        <a href="{{ url_for('niveis.novo') }}" class="btn btn-primary">Novo Nível</a>
+    </div>
+    
+    {% if niveis %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for nivel in niveis %}
+                <tr>
+                    <td>{{ nivel.nome }}</td>
+                    <td>{{ nivel.descricao }}</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a href="{{ url_for('niveis.editar', id=nivel.id) }}" class="btn btn-sm btn-outline-primary">Editar</a>
+                            <a href="{{ url_for('atividades.gerar', nivel_id=nivel.id) }}" class="btn btn-sm btn-outline-success">Gerar Atividades</a>
+                            <a href="{{ url_for('niveis.excluir', id=nivel.id) }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Tem certeza que deseja excluir este nível?')">Excluir</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        Nenhum nível cadastrado. Clique em "Novo Nível" para adicionar.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

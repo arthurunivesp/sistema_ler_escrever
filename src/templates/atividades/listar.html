@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Lista de Atividades</h2>
+    <div class="mb-3">
+        <a href="{{ url_for('atividades.novo') }}" class="btn btn-primary">Nova Atividade</a>
+    </div>
+    
+    {% if atividades %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Tipo</th>
+                    <th>Nível</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for atividade in atividades %}
+                <tr>
+                    <td>{{ atividade.titulo }}</td>
+                    <td>{{ atividade.tipo }}</td>
+                    <td>{{ atividade.nivel.nome if atividade.nivel else 'Não definido' }}</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a href="{{ url_for('atividades.editar', id=atividade.id) }}" class="btn btn-sm btn-outline-primary">Editar</a>
+                            <a href="{{ url_for('atividades.excluir', id=atividade.id) }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Tem certeza que deseja excluir esta atividade?')">Excluir</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        Nenhuma atividade cadastrada. Clique em "Nova Atividade" para adicionar.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Atividades de Alfabetização - {{ aluno.nome }}</title>
+    <style>
+        @page {
+            margin: 2cm;
+            @bottom-center {
+                content: "Página " counter(page) " de " counter(pages);
+                font-family: sans-serif;
+                font-size: 10pt;
+            }
+        }
+        body {
+            font-family: "Noto Sans", sans-serif;
+            line-height: 1.6;
+            font-size: 12pt;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        .info-aluno {
+            margin-bottom: 1cm;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #ffffff;
+            font-size: 14pt;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .atividade {
+            margin-bottom: 1cm;
+            page-break-inside: avoid;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #ffffff;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        .atividade-titulo {
+            font-size: 18pt;
+            font-weight: bold;
+            margin-bottom: 0.5cm;
+            color: #004085;
+            padding-bottom: 0.3cm;
+            border-bottom: 1px solid #004085;
+        }
+        .atividade-descricao {
+            font-style: italic;
+            font-size: 14pt;
+            margin-bottom: 0.5cm;
+            color: #555;
+        }
+        .atividade-conteudo {
+            border: 2px solid #ddd;
+            padding: 10px;
+            background-color: #fff;
+            min-height: 5cm;
+            font-size: 14pt;
+            text-align: justify;
+        }
+        .page-break {
+            page-break-after: always;
+        }
+        .data {
+            text-align: right;
+            font-size: 10pt;
+            margin-top: 0.5cm;
+        }
+        .respostas-container {
+            margin-top: 2cm;
+            page-break-before: always;
+        }
+    </style>
+</head>
+<body>
+    <div class="info-aluno">
+        <h2>Informações do Aluno</h2>
+        <p><strong>Nome:</strong> {{ aluno.nome }}</p>
+        <p><strong>Idade:</strong> {{ aluno.idade }}</p>
+        <p><strong>Turma:</strong> {{ aluno.turma }}</p>
+        <p><strong>Nível:</strong> {{ aluno.nivel.nome }}</p>
+        <div class="data">Data de geração: {{ data_geracao }}</div>
+    </div>
+    
+    {% for atividade in atividades %}
+    <div class="atividade {% if not loop.last %}page-break{% endif %}">
+        <div class="atividade-titulo">{{ atividade.titulo }}</div>
+        <div class="atividade-descricao">{{ atividade.descricao }}</div>
+        <div class="atividade-conteudo">
+            {{ atividade.conteudo|replace('\n', '<br>')|safe }}
+        </div>
+    </div>
+    {% endfor %}
+
+    <!-- Página final com respostas -->
+    <div class="page-break"></div>
+    <div class="respostas-container">
+        <h2>Respostas das Atividades</h2>
+        {% for atividade in atividades %}
+        <div class="atividade">
+            <div class="atividade-titulo">Questão {{ loop.index }}</div>
+            <div class="atividade-conteudo">
+                <strong>Resposta:</strong> {{ atividade.resposta|replace('\n', '<br>')|safe }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
+
+

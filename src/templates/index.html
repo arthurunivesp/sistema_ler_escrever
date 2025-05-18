@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">Sistema de Alfabetização e Adaptação Curricular</h1>
+    <p class="lead">Bem-vindo ao sistema para geração de materiais de alfabetização e adaptação curricular para alunos do 6º ano.</p>
+    <hr class="my-4">
+    {% if current_user.is_authenticated %}
+    <p>Este sistema permite cadastrar alunos, definir seus níveis de conhecimento e gerar métodos personalizados em PDF para avaliação e acompanhamento do progresso.</p>
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Alunos</h5>
+                    <p class="card-text">Cadastre e gerencie informações dos alunos.</p>
+                    <a href="{{ url_for('alunos.listar') }}" class="btn btn-primary">Gerenciar Alunos</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Níveis</h5>
+                    <p class="card-text">Defina os níveis de conhecimento para alfabetização.</p>
+                    <a href="{{ url_for('niveis.listar') }}" class="btn btn-primary">Gerenciar Níveis</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Atividades</h5>
+                    <p class="card-text">Crie e gerencie atividades personalizadas.</p>
+                    <a href="{{ url_for('atividades.listar') }}" class="btn btn-primary">Gerenciar Atividades</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <p>Faça login para acessar todas as funcionalidades do sistema.</p>
+    <a class="btn btn-primary btn-lg" href="{{ url_for('auth.login') }}" role="button">Login</a>
+    <a class="btn btn-secondary btn-lg" href="{{ url_for('auth.registrar') }}" role="button">Registrar</a>
+    {% endif %}
+</div>
+{% endblock %}

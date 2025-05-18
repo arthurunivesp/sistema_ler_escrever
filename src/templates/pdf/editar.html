@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h2>Editar Atividades para {{ aluno.nome }}</h2>
+    <form method="POST">
+        {% for atividade in atividades %}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>{{ atividade.titulo }}</h4>
+            </div>
+            <div class="card-body">
+                <label for="atividade_{{ atividade.id }}">Editar Conteúdo:</label>
+                <textarea name="atividade_{{ atividade.id }}" class="form-control">{{ atividade.conteudo }}</textarea>
+            </div>
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-success">Salvar Alterações</button>
+    </form>
+    <a href="{{ url_for('pdf.visualizar', aluno_id=aluno.id) }}" class="btn btn-secondary mt-3">Cancelar</a>
+</div>
+{% endblock %}
+

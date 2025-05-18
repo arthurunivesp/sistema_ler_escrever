@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Nova Atividade</h2>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('atividades.novo') }}">
+                        <div class="mb-3">
+                            <label for="titulo" class="form-label">Título</label>
+                            <input type="text" class="form-control" id="titulo" name="titulo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="descricao" class="form-label">Descrição</label>
+                            <textarea class="form-control" id="descricao" name="descricao" rows="2"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="tipo" class="form-label">Tipo</label>
+                            <select class="form-select" id="tipo" name="tipo">
+                                <option value="reconhecimento_letras">Reconhecimento de Letras</option>
+                                <option value="formas">Identificação de Formas</option>
+                                <option value="silabas">Formação de Sílabas</option>
+                                <option value="leitura_silabas">Leitura de Sílabas</option>
+                                <option value="palavras_simples">Formação de Palavras Simples</option>
+                                <option value="leitura_palavras">Leitura de Palavras</option>
+                                <option value="frases">Formação de Frases</option>
+                                <option value="textos">Leitura de Textos</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="conteudo" class="form-label">Conteúdo</label>
+                            <textarea class="form-control" id="conteudo" name="conteudo" rows="5" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nivel_id" class="form-label">Nível</label>
+                            <select class="form-select" id="nivel_id" name="nivel_id" required>
+                                <option value="">Selecione um nível</option>
+                                {% for nivel in niveis %}
+                                <option value="{{ nivel.id }}">{{ nivel.nome }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                        <a href="{{ url_for('atividades.listar') }}" class="btn btn-secondary">Cancelar</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
