@@ -16,6 +16,7 @@
                     <th>Idade</th>
                     <th>Turma</th>
                     <th>Nível</th>
+                    <th>Insígnia</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -27,10 +28,29 @@
                     <td>{{ aluno.turma }}</td>
                     <td>{{ aluno.nivel.nome if aluno.nivel else 'Não definido' }}</td>
                     <td>
+                        <!-- 🔥 Agora exibe SOMENTE o ÍCONE da insígnia -->
+                        <span>
+                            {% if aluno.nivel_id == 1 %}
+                                🔤 
+                            {% elif aluno.nivel_id == 2 %}
+                                🔍 
+                            {% elif aluno.nivel_id == 3 %}
+                                ✏️ 
+                            {% elif aluno.nivel_id == 4 %}
+                                📖 
+                            {% elif aluno.nivel_id == 5 %}
+                                🌟 
+                            {% else %}
+                                ❓ 
+                            {% endif %}
+                        </span>
+                    </td>
+                    <td>
                         <div class="btn-group" role="group">
                             <a href="{{ url_for('alunos.editar', id=aluno.id) }}" class="btn btn-sm btn-outline-primary">Editar</a>
                             <a href="{{ url_for('pdf.visualizar', aluno_id=aluno.id) }}" class="btn btn-sm btn-outline-success">Visualizar PDF</a>
                             <a href="{{ url_for('pdf.gerar', aluno_id=aluno.id) }}" class="btn btn-sm btn-outline-info">Gerar PDF</a>
+                            <a href="{{ url_for('alunos.subir_nivel', aluno_id=aluno.id) }}" class="btn btn-sm btn-outline-warning">🆙 Subir de Nível</a>
                             <a href="{{ url_for('alunos.excluir', id=aluno.id) }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Tem certeza que deseja excluir este aluno?')">Excluir</a>
                         </div>
                     </td>
@@ -46,3 +66,4 @@
     {% endif %}
 </div>
 {% endblock %}
+

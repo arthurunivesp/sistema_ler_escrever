@@ -32,12 +32,13 @@ class Nivel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
     descricao = db.Column(db.Text)
+    insignia = db.Column(db.String(50))  # 🔥 Insígnia correspondente ao nível
     
     # Relacionamentos
     atividades = db.relationship('Atividade', backref='nivel', lazy=True)
     
     def __repr__(self):
-        return f'<Nivel {self.nome}>'
+        return f'<Nivel {self.nome} - Insígnia {self.insignia}>'
 
 class Atividade(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -59,3 +60,4 @@ class Avaliacao(db.Model):
     
     def __repr__(self):
         return f'<Avaliacao {self.id} - Aluno {self.aluno_id}>'
+

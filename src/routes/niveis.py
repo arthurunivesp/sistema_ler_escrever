@@ -8,8 +8,9 @@ niveis_bp = Blueprint('niveis', __name__, url_prefix='/niveis')
 @niveis_bp.route('/')
 @login_required
 def listar():
-    with app.app_context():  # ✅ Garante que a consulta ao banco ocorra dentro do contexto do Flask
-        niveis = Nivel.query.all()
+    """Lista todos os níveis cadastrados, garantindo que as insígnias sejam carregadas corretamente"""
+    with app.app_context():
+        niveis = db.session.query(Nivel.id, Nivel.nome, Nivel.descricao, Nivel.insignia).all()
     return render_template('niveis/listar.html', niveis=niveis)
 
 @niveis_bp.route('/novo', methods=['GET', 'POST'])
@@ -18,23 +19,35 @@ def novo():
     if request.method == 'POST':
         nome = request.form.get('nome')
         descricao = request.form.get('descricao')
-        
-        if not nome:
-            flash('Nome é obrigatório!', 'danger')
+        insignia = request.form.get('insignia')  # ✅ Capturando a insígnia selecionada
+
+        if not nome or not insignia:
+            flash('Nome e Insígnia são obrigatórios!', 'danger')
             return render_template('niveis/novo.html')
-        
+
+        # ✅ Garantir que a insígnia corresponde ao nível correto
+        insignias_padrao = {
+            "Explorador das Letras": "🔤",
+            "Caçador de Palavras": "🔍",
+            "Mestre das Frases": "✏️",
+            "Aventureiro da Leitura": "📖",
+            "Guardião das Histórias": "🌟"
+        }
+        insignia = insignias_padrao.get(nome, insignia)  # ✅ Usa insígnia padrão, se disponível
+
         with app.app_context():
             nivel = Nivel(
                 nome=nome,
-                descricao=descricao
+                descricao=descricao,
+                insignia=insignia  # ✅ Adicionando ao banco corretamente
             )
 
             db.session.add(nivel)
             db.session.commit()
-        
-        flash('Nível cadastrado com sucesso!', 'success')
+
+        flash(f'Nível "{nome}" cadastrado com sucesso com insígnia {insignia}!', 'success')
         return redirect(url_for('niveis.listar'))
-    
+
     return render_template('niveis/novo.html')
 
 @niveis_bp.route('/editar/<int:id>', methods=['GET', 'POST'])

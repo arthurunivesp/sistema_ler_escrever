@@ -16,6 +16,20 @@
                             <label for="descricao" class="form-label">Descrição</label>
                             <textarea class="form-control" id="descricao" name="descricao" rows="3"></textarea>
                         </div>
+
+                        <!-- 🔥 Novo Campo: Escolha da Insígnia do Nível -->
+                        <div class="mb-3">
+                            <label for="insignia" class="form-label">Insígnia</label>
+                            <select class="form-select" id="insignia" name="insignia" required>
+                                <option value="">Selecione uma insígnia</option>
+                                <option value="🔤">🔤 Explorador das Letras</option>
+                                <option value="🔍">🔍 Caçador de Palavras</option>
+                                <option value="✏️">✏️ Mestre das Frases</option>
+                                <option value="📖">📖 Aventureiro da Leitura</option>
+                                <option value="🌟">🌟 Guardião das Histórias</option>
+                            </select>
+                        </div>
+
                         <button type="submit" class="btn btn-primary">Salvar</button>
                         <a href="{{ url_for('niveis.listar') }}" class="btn btn-secondary">Cancelar</a>
                     </form>

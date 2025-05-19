@@ -29,12 +29,45 @@
                                 {% endfor %}
                             </select>
                         </div>
+
+                        <!-- 🔥 Exibição correta da Insígnia -->
+                        <div class="mb-3">
+                            <label class="form-label">Insígnia</label>
+                            <div class="alert alert-info text-center">
+                                {% if aluno.nivel %}
+                                    {% if aluno.nivel_id == 1 %}
+                                        🔤
+                                    {% elif aluno.nivel_id == 2 %}
+                                        🔍
+                                    {% elif aluno.nivel_id == 3 %}
+                                        ✏️
+                                    {% elif aluno.nivel_id == 4 %}
+                                        📖
+                                    {% elif aluno.nivel_id == 5 %}
+                                        🌟
+                                    {% else %}
+                                        ❓
+                                    {% endif %}
+                                {% else %}
+                                    ❓ Sem Insígnia
+                                {% endif %}
+                            </div>
+                        </div>
+
                         <div class="mb-3">
                             <label for="observacoes" class="form-label">Observações</label>
                             <textarea class="form-control" id="observacoes" name="observacoes" rows="3">{{ aluno.observacoes }}</textarea>
                         </div>
+
                         <button type="submit" class="btn btn-primary">Salvar</button>
                         <a href="{{ url_for('alunos.listar') }}" class="btn btn-secondary">Cancelar</a>
+
+                        <!-- ✅ Novo botão para subir de nível -->
+                        {% if aluno.nivel_id < 5 %}
+                            <a href="{{ url_for('alunos.subir_nivel', aluno_id=aluno.id) }}" class="btn btn-warning">🆙 Subir de Nível</a>
+                        {% else %}
+                            <button class="btn btn-secondary" disabled>✅ Nível Máximo</button>
+                        {% endif %}
                     </form>
                 </div>
             </div>
@@ -42,3 +75,4 @@
     </div>
 </div>
 {% endblock %}
+
